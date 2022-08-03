@@ -1,9 +1,13 @@
 import connection from "../dbStrategy/postgres.js";
 import { nanoid } from 'nanoid';
+import { stripHtml } from "string-strip-html";
 
 export async function shortenUrl(req,res){
     const { url } = req.body;
     const { token } = res.locals;
+
+    const cleansedUrl = stripHtml(url).result;
+
     try {
         const { rows:session } = await connection.query(`
         SELECT * FROM sessions s
@@ -15,7 +19,7 @@ export async function shortenUrl(req,res){
 
         await connection.query(`
         INSERT INTO urls (url,"shortUrl","userId")
-        VALUES ($1,$2,$3)`,[url,shortenedUrl,session[0].userId]);
+        VALUES ($1,$2,$3)`,[cleansedUrl,shortenedUrl,session[0].userId]);
 
         const body = {
             shortUrl:shortenedUrl
@@ -23,13 +27,13 @@ export async function shortenUrl(req,res){
 
         res.status(201).send(body);
     } catch (error) {
-        console.log(error)
         res.sendStatus(500);
     }
 }
 
 export async function getUrlById(req,res){
     const { id } = req.params;
+    if(isNaN(parseInt(id))) return res.sendStatus(422);
     try {
         const { rows:url } = await connection.query(`
         SELECT * FROM urls u
@@ -72,6 +76,7 @@ export async function goToUrl(req,res){
 export async function deleteUrlById(req,res){
     const { token } = res.locals;
     const { id } = req.params;
+    if(isNaN(parseInt(id))) return res.sendStatus(422);
     try {
         const { rows:session } = await connection.query(`
         SELECT * FROM sessions s
@@ -92,7 +97,6 @@ export async function deleteUrlById(req,res){
 
         res.sendStatus(204);
     } catch (error) {
-        console.log(error);
         res.sendStatus(500);
     }
 }

@@ -1,14 +1,19 @@
 import connection from "../dbStrategy/postgres.js";
 import bcrypt from 'bcrypt';
 import {v4} from 'uuid';
+import { stripHtml } from "string-strip-html";
 
 export async function signUp(req,res){
     const { name,email,password } = req.body;
     const passwordHash = bcrypt.hashSync(password,10);
+
+    const cleansedName = stripHtml(name).result;
+    const cleansedEmail = stripHtml(email).result;
+
     try {   
         await connection.query(`
         INSERT INTO users (name,email,password) 
-        VALUES ($1,$2,$3)`,[name,email,passwordHash]);
+        VALUES ($1,$2,$3)`,[cleansedName,cleansedEmail,passwordHash]);
         res.sendStatus(201);
     } catch (error) {
         res.sendStatus(500);
@@ -34,7 +39,6 @@ export async function signIn(req,res){
             return res.sendStatus(401)
         }
     }catch (error) {
-        console.log(error);
         res.sendStatus(500);
     }
 }

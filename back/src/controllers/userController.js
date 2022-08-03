@@ -1,6 +1,6 @@
 import connection from "../dbStrategy/postgres.js";
 
-export async function getUserInfo(req,res){
+export async function getUserInfo(_,res){
     const { token } = res.locals;
     try {
         const { rows:session } = await connection.query(`

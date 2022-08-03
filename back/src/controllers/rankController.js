@@ -1,6 +1,6 @@
 import connection from "../dbStrategy/postgres.js";
 
-export async function getRanking(req,res){
+export async function getRanking(_,res){
     try {
         const { rows:body } = await connection.query(`
         SELECT usr.id,usr.name,COUNT(u.id) as "linksCount",
@@ -12,7 +12,6 @@ export async function getRanking(req,res){
 
         res.status(200).send(body)
     } catch (error) {
-        console.log(error)
         res.sendStatus(500);
     }
 }
