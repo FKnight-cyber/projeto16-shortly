@@ -37,7 +37,6 @@ export async function signIn(req,res){
             return res.sendStatus(401)
         }
     }catch (error) {
-
         res.sendStatus(500);
     }
 }
