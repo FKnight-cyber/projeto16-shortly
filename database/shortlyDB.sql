@@ -24,4 +24,4 @@ CREATE TABLE "sessions"(
     "userId" INT NOT NULL REFERENCES users(id),
     "token" TEXT,
     "createdAt" DATE DEFAULT NOW()
-)
+);
