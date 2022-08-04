@@ -1,4 +1,5 @@
 import connection from "../dbStrategy/postgres.js";
+import { urlRepository } from "../repositories/urlRepository.js";
 import { nanoid } from 'nanoid';
 import { stripHtml } from "string-strip-html";
 
@@ -17,9 +18,7 @@ export async function shortenUrl(req,res){
 
         const shortenedUrl = nanoid(8);
 
-        await connection.query(`
-        INSERT INTO urls (url,"shortUrl","userId")
-        VALUES ($1,$2,$3)`,[cleansedUrl,shortenedUrl,session[0].userId]);
+        await urlRepository.newUrl(cleansedUrl,shortenedUrl,session[0].userId);
 
         const body = {
             shortUrl:shortenedUrl
@@ -27,6 +26,7 @@ export async function shortenUrl(req,res){
 
         res.status(201).send(body);
     } catch (error) {
+        if(error.constraint === 'proper_url') return res.status(422).send({message:'invalid URL format'});
         res.sendStatus(500);
     }
 }
@@ -35,9 +35,7 @@ export async function getUrlById(req,res){
     const { id } = req.params;
     if(isNaN(parseInt(id))) return res.sendStatus(422);
     try {
-        const { rows:url } = await connection.query(`
-        SELECT * FROM urls u
-        WHERE u.id = $1`,[id]);
+        const { rows:url } = await urlRepository.getUrlById(id);
         
         if(!url.length > 0) return res.sendStatus(404)
 
@@ -56,16 +54,11 @@ export async function getUrlById(req,res){
 export async function goToUrl(req,res){
     const { shortUrl } = req.params;
     try {
-        const { rows:url } = await connection.query(`
-        SELECT * FROM urls u
-        WHERE "shortUrl" = $1`,[shortUrl]);
+        const { rows:url } = await urlRepository.getUrlByCode(shortUrl);
 
         if(!url.length > 0) return res.sendStatus(404);
 
-        await connection.query(`
-        UPDATE urls
-        SET "visitCount" = "visitCount" + 1
-        WHERE "shortUrl" = $1`,[shortUrl]);
+        await urlRepository.updateUrl(shortUrl);
 
         res.status(200).redirect(url[0].url);
     } catch (error) {
@@ -84,16 +77,13 @@ export async function deleteUrlById(req,res){
 
         if(!session.length > 0) return res.sendStatus(401);
 
-        const { rows:url } = await connection.query(`
-        SELECT * FROM urls u
-        WHERE u.id = $1`,[id]);
+        const { rows:url } = await urlRepository.getUrlById(id);
 
         if(!url.length > 0) return res.sendStatus(404);
         
         if(url[0].userId !== session[0].userId) return res.sendStatus(401);
 
-        await connection.query(`
-        DELETE FROM urls WHERE id = $1`,[id])
+        await urlRepository.deleteUrl(id);
 
         res.sendStatus(204);
     } catch (error) {

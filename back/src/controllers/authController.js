@@ -1,7 +1,8 @@
-import connection from "../dbStrategy/postgres.js";
+import connection from '../dbStrategy/postgres.js';
 import bcrypt from 'bcrypt';
 import {v4} from 'uuid';
 import { stripHtml } from "string-strip-html";
+import { userRepository } from "../repositories/userRepository.js";
 
 export async function signUp(req,res){
     const { name,email,password } = req.body;
@@ -11,11 +12,10 @@ export async function signUp(req,res){
     const cleansedEmail = stripHtml(email).result;
 
     try {   
-        await connection.query(`
-        INSERT INTO users (name,email,password) 
-        VALUES ($1,$2,$3)`,[cleansedName,cleansedEmail,passwordHash]);
+        await userRepository.newUser(cleansedName,cleansedEmail,passwordHash);
         res.sendStatus(201);
     } catch (error) {
+        if(error.constraint === "users_email_key") return res.sendStatus(409);
         res.sendStatus(500);
     }
 }
@@ -23,9 +23,7 @@ export async function signUp(req,res){
 export async function signIn(req,res){
     const { email,password } = req.body;
     try {   
-        const { rows:checkUser } = await connection.query(`
-        SELECT * FROM users u
-        WHERE u.email = $1`,[email]);
+        const { rows:checkUser } = await userRepository.getUserByEmail(email);
 
         if(checkUser.length > 0 && bcrypt.compareSync(password, checkUser[0].password)){
             const token = v4();
@@ -39,6 +37,7 @@ export async function signIn(req,res){
             return res.sendStatus(401)
         }
     }catch (error) {
+
         res.sendStatus(500);
     }
 }

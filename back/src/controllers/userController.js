@@ -1,4 +1,5 @@
 import connection from "../dbStrategy/postgres.js";
+import { userRepository } from "../repositories/userRepository.js";
 
 export async function getUserInfo(_,res){
     const { token } = res.locals;
@@ -10,9 +11,7 @@ export async function getUserInfo(_,res){
 
         if(!session.length > 0) return res.sendStatus(401);
 
-        const { rows:userInfo } = await connection.query(`
-        SELECT u.id,u.url,u."shortUrl",u."visitCount" FROM urls u
-        WHERE u."userId" = $1`,[session[0].userId])
+        const { rows:userInfo } = await userRepository.userInfo(session[0].userId);
 
         let totalVisits = 0
         userInfo.forEach(url => totalVisits+=url.visitCount);
