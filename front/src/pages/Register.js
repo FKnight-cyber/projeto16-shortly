@@ -159,7 +159,7 @@ const Container = styled.div`
        }
 
        form{
-        margin-top: 60px;
+        margin-top: 100px;
         width: 80%;
 
         button{
