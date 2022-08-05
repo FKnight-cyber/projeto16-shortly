@@ -55,6 +55,11 @@ export default function InitialPage(){
          })
     }
 
+    function logOut(){
+        localStorage.setItem('authToken', '');
+        setToken(localStorage.getItem('authToken'));
+    }
+
     return(
         <Container token={token}>
             {
@@ -87,13 +92,11 @@ export default function InitialPage(){
                 <>
                     <header>
                         <h5 className='greetings'>Seja bem-vindo(a), Pessoa!</h5>
-                        <Link to="/" style={{textDecoration:"none"}}>
                             <h3>Home</h3>
-                        </Link>
                         <Link to="/ranking" style={{textDecoration:"none"}}>
-                            <h3>Ranking</h3>
+                            <h4>Ranking</h4>
                         </Link>
-                        <Link onClick={()=>setToken('')} to="/" style={{textDecoration:"none"}}>
+                        <Link onClick={logOut} to="/" style={{textDecoration:"none"}}>
                             <h4>Sair</h4>
                         </Link>
                     </header>
@@ -193,8 +196,8 @@ const Container = styled.div`
 
         h4{
             font-size: 14px;
-            color: #9C9C9C;
-            text-decoration: ${props => props.token === '' ? 'none' : 'underline'};
+            margin-right:30px;
+            color: #5D9040;
         }
     }
 

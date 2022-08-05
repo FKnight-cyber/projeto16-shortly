@@ -23,7 +23,8 @@ export default function Login(){
         const promise = axios.post('https://ryan-project-shortly.herokuapp.com/signin',body);
 
         promise.then((res)=>{
-            setToken(res.data);
+            localStorage.setItem('authToken', res.data);
+            setToken(localStorage.getItem('authToken'));
             navigate('/');
         })
 

@@ -1,13 +1,14 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logo from '../assets/shortly.png';
 import axios from 'axios';
+import UserContext from '../contexts/UserContext.js';
 
 export default function UrlPage(){
     const [link,setLink] = useState('');
     const {id} = useParams();
-    const navigate = useNavigate();
+    const { token,setToken } = useContext(UserContext);
 
     useEffect(()=>{
         const promise = axios.get(`https://ryan-project-shortly.herokuapp.com/urls/${id}`);
@@ -22,16 +23,37 @@ export default function UrlPage(){
         });
         },[]);
 
+        function logOut(){
+            localStorage.setItem('authToken', '');
+            setToken(localStorage.getItem('authToken'));
+        }
+
     return(
         <Container>
-            <header>
-                <Link to="/signin" style={{textDecoration:"none"}}>
-                    <h3>Entrar</h3>
-                </Link>
-                <Link to="/signup" style={{textDecoration:"none"}}>
-                    <h4>Cadastrar-se</h4>
-                </Link>
-            </header>
+            {
+                token === '' ?
+                <header>
+                    <Link to="/signin" style={{textDecoration:"none"}}>
+                        <h3>Entrar</h3>
+                    </Link>
+                    <Link to="/signup" style={{textDecoration:"none"}}>
+                        <h4>Cadastrar-se</h4>
+                    </Link>
+                </header>
+                :
+                <header>
+                    <h5 className='greetings'>Seja bem-vindo(a), Pessoa!</h5>
+                    <Link to="/" style={{textDecoration:"none"}}>
+                        <h3>Home</h3>
+                    </Link>
+                    <Link to="/ranking" style={{textDecoration:"none"}}>
+                        <h3>Ranking</h3>
+                    </Link>
+                    <Link onClick={logOut} to="/" style={{textDecoration:"none"}}>
+                        <h4>Sair</h4>
+                    </Link>
+                </header>
+            }
             <div className='title'>
                 <h1>Shortly</h1>
                 <img src={logo} alt="shortly" srcset="" />
@@ -41,7 +63,7 @@ export default function UrlPage(){
                     <a href={link.url}>
                         <h6>
                             {
-                                link === '' ? '' : link.url.substring(0,30)+'...'
+                                link === '' ? '' : link.url.substring(0,50)+'...'
                             }
                         </h6>
                     </a>
@@ -78,6 +100,12 @@ const URL = styled.div`
         a{
             color: #ffffff;
         }
+
+        h6{
+           &:hover{
+            cursor: pointer;
+           }
+        }
     }
 `
 
@@ -93,6 +121,14 @@ const Container = styled.div`
         height: 58px;
         position: relative;
 
+        .greetings{
+            position: absolute;
+            font-weight: 400;
+            font-size: 14px;
+            left: 200px;
+            color: #5D9040;
+        }
+
         h3{
             font-size: 14px;
             color: #5D9040;
@@ -101,7 +137,7 @@ const Container = styled.div`
 
         h4{
             font-size: 14px;
-            color: #9C9C9C;
+            color: #5D9040;
         }
     }
 

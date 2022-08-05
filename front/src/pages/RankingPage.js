@@ -17,15 +17,20 @@ export default function RankingPage(){
         }
     },[])
 
+    function logOut(){
+        localStorage.setItem('authToken', '');
+        setToken(localStorage.getItem('authToken'));
+    }
+
     return(
         <Container>
             <header>
                 <h5 className='greetings'>Seja bem-vindo(a), Pessoa!</h5>
                 <Link to="/" style={{textDecoration:"none"}}>
-                    <h3>Home</h3>
+                    <h4>Home</h4>
                 </Link>
                 <h3>Ranking</h3>
-                <Link onClick={()=>setToken('')} to="/" style={{textDecoration:"none"}}>
+                <Link onClick={logOut} to="/" style={{textDecoration:"none"}}>
                     <h4>Sair</h4>
                 </Link>
             </header>
@@ -77,12 +82,13 @@ const Container = styled.div`
         h3{
             font-size: 14px;
             color: #9C9C9C;
-            margin-right: 30px;
+            margin-right: 20px;
+            margin-left: 10px;
         }
 
         h4{
             font-size: 14px;
-            color: #9C9C9C;
+            color: #5D9040;
             margin-right: 10px;
         }
     }

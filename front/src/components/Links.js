@@ -81,6 +81,12 @@ const Container = styled.div`
         a{
             color: #ffffff;
         }
+
+        h6{
+           &:hover{
+            cursor: pointer;
+           }
+        }
     }
 
     button{

@@ -17,7 +17,8 @@ async function newUser(name,email,password) {
 async function userInfo(id){
     return connection.query(`
     SELECT u.id,u.url,u."shortUrl",u."visitCount" FROM urls u
-    WHERE u."userId" = $1`,[id]);
+    WHERE u."userId" = $1
+    ORDER BY u."visitCount" DESC`,[id]);
 }
 
 export const userRepository = {

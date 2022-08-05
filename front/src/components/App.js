@@ -9,7 +9,7 @@ import RankingPage from '../pages/RankingPage.js';
 import UrlPage from '../pages/UrlPage.js';
 
 export default function App(){
-    const [token,setToken] = useState('');
+    const [token,setToken] = useState(localStorage.getItem('authToken'));
 
     const userContext = {
         token,
