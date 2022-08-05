@@ -153,6 +153,10 @@ const Container = styled.div`
         top: 0;
        }
 
+       .title{
+        margin-top: 20px;
+       }
+
        form{
         margin-top: 60px;
         width: 80%;
