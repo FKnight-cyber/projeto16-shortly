@@ -84,13 +84,13 @@ const Container = styled.div`
 
         h3{
             font-size: 14px;
-            color: #9C9C9C;
+            color: #5D9040;
             margin-right: 30px;
         }
 
         h4{
             font-size: 14px;  
-            color: #5D9040;
+            color: #9C9C9C;
         }
     }
 
@@ -140,4 +140,26 @@ const Container = styled.div`
             }
         }
     }
+
+    @media only screen and (max-width: 768px) {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+       position: relative;
+
+       header{
+        position: absolute;
+        top: 0;
+       }
+
+       form{
+        margin-top: 60px;
+        width: 80%;
+
+        button{
+            margin-top: 30px;
+        }
+       }
+    }   
 `

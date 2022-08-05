@@ -107,6 +107,21 @@ const URL = styled.div`
            }
         }
     }
+
+    @media only screen and (max-width: 768px){
+        margin-top: 0;
+
+        div{
+            padding-top:10px;
+            padding-bottom: 4px;
+            height: 100px;
+            flex-direction: column;
+        }
+
+        a{
+            margin-left: 30%;
+        }
+    }
 `
 
 const Container = styled.div`
@@ -147,7 +162,7 @@ const Container = styled.div`
 
         h1{
             font-size: 64px;
-            font-weight: 200;
+            font-weight: 700;
         }
         img{
             width: 102px;
@@ -155,4 +170,31 @@ const Container = styled.div`
             transform: translateY(-1em);
         }
     }
+
+    @media only screen and (max-width: 768px) {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+       position: relative;
+
+       .title{
+        position: absolute;
+        top: 100px;
+       }
+
+       header{
+        position: absolute;
+        top: 0;
+       }
+
+       form{
+        margin-top: 60px;
+        width: 80%;
+
+        button{
+            margin-top: 30px;
+        }
+       }
+    } 
 `

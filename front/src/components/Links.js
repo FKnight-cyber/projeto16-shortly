@@ -80,6 +80,7 @@ const Container = styled.div`
 
         a{
             color: #ffffff;
+            margin-left: 10px;
         }
 
         h6{
