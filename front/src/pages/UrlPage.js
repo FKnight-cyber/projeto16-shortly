@@ -4,6 +4,19 @@ import styled from 'styled-components';
 import logo from '../assets/shortly.png';
 import axios from 'axios';
 import UserContext from '../contexts/UserContext.js';
+import { toast,ToastContainer } from "react-toastify";
+
+const notify = (error)=>{
+    toast(`❗ ${error}`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
 
 export default function UrlPage(){
     const [link,setLink] = useState('');
@@ -14,12 +27,11 @@ export default function UrlPage(){
         const promise = axios.get(`https://ryan-project-shortly.herokuapp.com/urls/${id}`);
 
         promise.then(res=>{
-            console.log(res.data)
             setLink(res.data);
         });
 
         promise.catch(Error=>{
-            alert(Error.response.data);
+            notify(Error.response.data);
         });
         },[]);
 
@@ -30,6 +42,18 @@ export default function UrlPage(){
 
     return(
         <Container>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={true}
+                limit={1}
+            />
             {
                 token === '' ?
                 <header>

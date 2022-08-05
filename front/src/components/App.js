@@ -7,6 +7,7 @@ import Register from '../pages/Register.js';
 import InitialPage from '../pages/InitialPage.js';
 import RankingPage from '../pages/RankingPage.js';
 import UrlPage from '../pages/UrlPage.js';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App(){
     const [token,setToken] = useState(localStorage.getItem('authToken'));

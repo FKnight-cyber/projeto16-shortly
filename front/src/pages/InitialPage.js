@@ -7,12 +7,39 @@ import Ranking from '../components/Ranking.js';
 import UserContext from '../contexts/UserContext.js';
 import Links from '../components/Links.js';
 import axios from 'axios';
+import {Circles} from "react-loader-spinner";
+import { toast,ToastContainer } from "react-toastify";
+
+const notify = (error)=>{
+    toast(`❗ ${error}`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
+
+const notify2 = (msg)=>{
+    toast(`✅ ${msg}`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
 
 export default function InitialPage(){
     const { token,setToken } = useContext(UserContext);
     const [links,setLinks] = useState({shortenedUrls:[]});
     const [url,setUrl] = useState('');
     const [render,setRender] = useState(0);
+    const [load,setLoad] = useState(false);
 
     useEffect(()=>{
         if(token){
@@ -23,17 +50,20 @@ export default function InitialPage(){
             });
 
             promise.then(res=>{
+                
                 setLinks(res.data);
             });
 
             promise.catch(Error=>{
-                alert(Error.response.data);
+                
+                notify(Error.response.data);
             });
             }
         },[url,render]);
 
     function shortenLink(event){
         event.preventDefault();
+        setLoad(true);
 
         const body = {
             url
@@ -46,12 +76,14 @@ export default function InitialPage(){
          });
 
          promise.then(()=>{
+            setLoad(false);
             setUrl('')
-            alert('OK');
+            notify2("Url shortened!");
          });
 
          promise.catch(Error=>{
-            alert(Error.response.data);
+            setLoad(false);
+            notify(Error.response.data);
          })
     }
 
@@ -62,6 +94,18 @@ export default function InitialPage(){
 
     return(
         <Container token={token}>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={true}
+                limit={1}
+            />
             {
                 token === '' ?
                 <>
@@ -104,14 +148,21 @@ export default function InitialPage(){
                         <h1>Shortly</h1>
                         <img src={logo} alt="shortly" srcset="" />
                     </div>
-                    <form onSubmit={shortenLink}>
-                        <input type="text"
-                        placeholder="Links que cabem no bolso"
-                        value={url}
-                        onChange={(e)=>setUrl(e.target.value)}
-                        required />
-                        <button type="submit">Encurtar link</button>
-                    </form>
+                    {
+                        load ?
+                            <div className="spinner">
+                                <Circles  color={'#5D9040'} />
+                            </div>      
+                        :
+                            <form onSubmit={shortenLink}>
+                                <input type="text"
+                                    placeholder="Links que cabem no bolso"
+                                    value={url}
+                                    onChange={(e)=>setUrl(e.target.value)}
+                                    required />
+                                <button type="submit">Encurtar link</button>
+                            </form>
+                    }
                     <div className='linkContainer'>
                         <Links links={links} setRender={setRender} />
                     </div>
@@ -126,10 +177,29 @@ const Container = styled.div`
     height: 100vh;
     padding: 20px;
 
+    span{
+        background-color:#FFFFFF;
+    }
+
+    .spinner{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+        margin: 0 auto;
+    }
+
     .linkContainer{
         margin-top: 40px;
         height: 400px;
         overflow-y: scroll;
+
+        button{
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     form{

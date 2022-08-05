@@ -3,6 +3,20 @@ import { Link,useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../assets/shortly.png';
 import axios from 'axios';
+import { toast,ToastContainer } from "react-toastify";
+import {Circles} from "react-loader-spinner";
+
+const notify = (error)=>{
+    toast(`❗ ${error}`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
 
 export default function Register(){
     const navigate = useNavigate();
@@ -10,10 +24,12 @@ export default function Register(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [confirmPassword,setConfirmPassword] = useState('');
+    const [load,setLoad] = useState(false);
 
     function signUp(event){
         event.preventDefault();
-        
+        setLoad(true);
+
         const body = {
             name,
             email,
@@ -24,16 +40,32 @@ export default function Register(){
         const promise = axios.post('https://ryan-project-shortly.herokuapp.com/signup',body);
 
         promise.then(()=>{
+            setLoad(false);
             navigate('/signin');
         });
 
         promise.catch(Error=>{
-            alert(Error.response.data);
+            setLoad(false);
+            if(Error.response.status === 422){
+                notify("Preencha os dados corretamente!");
+            } 
         });
     }
 
     return(
         <Container>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={true}
+                limit={1}
+            />
             <header>
                 <Link to="/signin" style={{textDecoration:"none"}}>
                     <h3>Entrar</h3>
@@ -44,29 +76,34 @@ export default function Register(){
                 <h1>Shortly</h1>
                 <img src={logo} alt="shortly" srcset="" />
             </div>
+            {
+            load ?
+            <Circles color={'#5D9040'} />
+                :
             <form onSubmit={signUp}>
                 <input type="text"
-                value={name}
-                placeholder="Nome"
-                onChange={(e)=>setName(e.target.value)}
-                required />
+                    value={name}
+                    placeholder="Nome"
+                    onChange={(e)=>setName(e.target.value)}
+                    required />
                 <input type="email"
-                value={email}
-                placeholder="E-mail"
-                onChange={(e)=>setEmail(e.target.value)}
-                required />
+                    value={email}
+                    placeholder="E-mail"
+                    onChange={(e)=>setEmail(e.target.value)}
+                    required />
                 <input type="password"
-                value={password}
-                placeholder="Senha"
-                onChange={(e)=>setPassword(e.target.value)}
-                required />
+                    value={password}
+                    placeholder="Senha"
+                    onChange={(e)=>setPassword(e.target.value)}
+                    required />
                 <input type="password"
-                value={confirmPassword}
-                placeholder="Confirmar senha"
-                onChange={(e)=>setConfirmPassword(e.target.value)}
-                required />
+                    value={confirmPassword}
+                    placeholder="Confirmar senha"
+                    onChange={(e)=>setConfirmPassword(e.target.value)}
+                    required />
                 <button type="submit">Criar Conta</button>
             </form>
+            }
         </Container>
     )
 }
@@ -159,7 +196,7 @@ const Container = styled.div`
        }
 
        form{
-        margin-top: 100px;
+        margin-top: 140px;
         width: 80%;
 
         button{

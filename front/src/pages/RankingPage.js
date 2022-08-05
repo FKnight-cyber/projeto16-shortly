@@ -12,7 +12,6 @@ export default function RankingPage(){
 
     useEffect(()=>{
         if(token===''){
-            alert('Unauthorized!');
             navigate('/');
         }
     },[])
@@ -179,8 +178,16 @@ const Container = styled.div`
        }
 
        .linkContainer{
-        height: 400px;
-        width: 80%;
-    }
+            height: 400px;
+            width: 80%;
+        }
+
+        .ranking{
+            margin-top: 100px;
+        }
+
+        .rankingContainer{
+            margin-top: 30px;
+        }
     }
 `
