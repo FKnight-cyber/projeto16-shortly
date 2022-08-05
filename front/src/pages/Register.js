@@ -154,7 +154,8 @@ const Container = styled.div`
        }
 
        .title{
-        margin-top: 20px;
+        position: absolute;
+        top: 100px;
        }
 
        form{
