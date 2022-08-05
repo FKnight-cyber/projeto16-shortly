@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useContext,useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext.js";
 import { IoTrash } from "react-icons/io5";
-import {Circles} from "react-loader-spinner";
 import { toast } from "react-toastify";
 
 const notify = (error)=>{
@@ -32,12 +31,8 @@ const notify2 = (msg)=>{
 
 export default function Links({links,setRender}){
     const { token } = useContext(UserContext);
-    const [load,setLoad] = useState(links.shortenedUrls.map(()=>false));
 
         function deleteUrl(id,index){
-            let loader = [...load]
-            loader[index] = true;
-            setLoad([...loader]);
             const promise = axios.delete(`https://ryan-project-shortly.herokuapp.com/urls/${id}`,{
                 headers:{
                     Authorization: `Bearer ${token}`
@@ -45,15 +40,11 @@ export default function Links({links,setRender}){
              });
 
              promise.then(()=>{
-                loader[index] = false;
-                setLoad([...loader]);
                 setRender(Math.random());
                 notify2('Url Deleted');
              });
 
              promise.catch(Error=>{
-                loader[index] = false;
-                setLoad([...loader]);
                 notify(Error.response.data);
              });
         };
@@ -82,14 +73,7 @@ export default function Links({links,setRender}){
                 <h5>Quantidade de visitantes: {item.visitCount}</h5>
             </div>
             <button onClick={()=>deleteUrl(item.id,index)}>
-                {
-                    load[index] ?
-                        <span className="spinner">
-                            <Circles color={'crimson'} width={60} height={60} />
-                        </span>      
-                    :
-                        <IoTrash color="crimson" size={30} />
-                }   
+                <IoTrash color="crimson" size={30} />    
             </button>
         </Container>
         )
@@ -143,10 +127,6 @@ const Container = styled.div`
 
         &:hover{
             cursor: pointer;
-        }
-
-        .spinner{
-            background-color: #ffffff !important;
         }
     }
 
