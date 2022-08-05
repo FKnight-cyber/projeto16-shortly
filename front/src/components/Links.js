@@ -21,8 +21,21 @@ export default function Links({links,setRender}){
 
              promise.catch(Error=>{
                 alert(Error.response.data);
-             })
-        }
+             });
+        };
+
+        function goToUrl(shortUrl){
+            const promise = axios.get(`https://ryan-project-shortly.herokuapp.com/urls/open/${shortUrl}`);
+
+        
+            promise.then((res)=>{
+                window.location.href = res.data.split('to ')[1];
+            })
+
+            promise.catch(Error=>{
+                alert(Error.response.data);
+            })
+        };
 
     return(
         links.shortenedUrls.map((item,index) => 
@@ -31,7 +44,7 @@ export default function Links({links,setRender}){
                 <a href={item.url}>
                     <h6>{item.url.substring(0,30) + '...'}</h6>
                 </a>
-                <h6>{item.shortUrl}</h6>
+                <h6 onClick={()=>goToUrl(item.shortUrl)}>{item.shortUrl}</h6>
                 <h6>Quantidade de visitantes: {item.visitCount}</h6>
             </div>
             <button onClick={()=>deleteUrl(item.id)}>

@@ -60,7 +60,7 @@ export async function goToUrl(req,res){
 
         await urlRepository.updateUrl(shortUrl);
 
-        res.status(200).redirect(url[0].url);
+        res.redirect(200,url[0].url);
     } catch (error) {
         res.sendStatus(500);
     }
