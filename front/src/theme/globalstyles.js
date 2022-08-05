@@ -5,6 +5,10 @@ const GlobalStyle = createGlobalStyle`
 
 * {
 	box-sizing: border-box;
+
+	::-webkit-scrollbar {
+    display: none;
+}
 }
 
  /* http://meyerweb.com/eric/tools/css/reset/ 

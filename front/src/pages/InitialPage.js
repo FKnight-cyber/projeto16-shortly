@@ -248,4 +248,46 @@ const Container = styled.div`
         font-weight: 500;
         font-size: 22px;
     }
+
+    @media only screen and (max-width: 768px) {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+       position: relative;
+
+       .title{
+        margin-top: 60px;
+       }
+
+       header{
+        position: absolute;
+        top: 0;
+
+        .greetings{
+            top:180px;
+            width: 200px;
+            left: 0;
+            margin: 0;
+        }
+       }
+
+       form{
+        flex-direction: column;
+        input{
+            width: 380px;
+            margin-right: 0;
+        }
+
+        button{
+            width: 130px;
+            margin-top: 10px;
+        }
+       }
+
+       .linkContainer{
+        height: 400px;
+        width: 80%;
+    }
+    }   
 `

@@ -45,7 +45,7 @@ export default function Links({links,setRender}){
                     <h6>{item.url.substring(0,30) + '...'}</h6>
                 </a>
                 <h6 onClick={()=>goToUrl(item.shortUrl)}>{item.shortUrl}</h6>
-                <h6>Quantidade de visitantes: {item.visitCount}</h6>
+                <h5>Quantidade de visitantes: {item.visitCount}</h5>
             </div>
             <button onClick={()=>deleteUrl(item.id)}>
                 <IoTrash color="crimson" size={30} />
@@ -95,5 +95,27 @@ const Container = styled.div`
         box-shadow: 0px 4px 24px rgba(120, 177, 89, 0.12);
         border-radius: 0px 12px 12px 0px;
         border: none;
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+    @media only screen and (max-width: 768px){
+        margin-bottom: 80px;
+        
+        div{
+            flex-direction: column;
+            height: 100px;
+            padding: 4px 10px;
+        }
+
+        button{
+            height: 100px;
+        }
+
+        h5{
+            font-size: 14px;
+        }
     }
 `
