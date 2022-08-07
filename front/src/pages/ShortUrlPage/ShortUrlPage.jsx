@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams,useNavigate } from 'react-router-dom';
 import { Circles } from "react-loader-spinner";
 import logo from "../../assets/shortly.png";
 import { toast,ToastContainer } from "react-toastify";
@@ -20,18 +20,23 @@ const notify = (error)=>{
 
 export default function ShortUrlPage(){
     const { shorten:shortUrl } = useParams();
-    console.log(shortUrl)
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const promise = axios.get(`https://ryan-project-shortly.herokuapp.com/urls/open/${shortUrl}`);
 
         promise.then((res)=>{
-            console.log(res)
             window.location.href = res.data.split('to ')[1];
         })
 
         promise.catch(Error=>{
-            notify(Error.response.data);
+            if(Error.response.status === 404){
+                notify("Url não existe!");
+                setTimeout(()=>navigate("/"),2000);
+            }else{
+                notify("Url inválida!");
+                setTimeout(()=>navigate("/"),2000);
+            } 
         })
         },[]);
 
