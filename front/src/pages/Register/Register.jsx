@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import logo from '../assets/shortly.png';
+import logo from "../../assets/shortly.png"
 import axios from 'axios';
 import { toast,ToastContainer } from "react-toastify";
 import {Circles} from "react-loader-spinner";
+import {Container} from "./Register.js"
 
 const notify = (error)=>{
     toast(`❗ ${error}`, {
@@ -107,101 +107,3 @@ export default function Register(){
         </Container>
     )
 }
-
-const Container = styled.div`
-    width: 100%;
-    height: 100vh;
-    padding: 20px;
-
-    header{
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        height: 58px;
-
-        h3{
-            font-size: 14px;
-            color: #5D9040;
-            margin-right: 30px;
-        }
-
-        h4{
-            font-size: 14px;  
-            color: #9C9C9C;
-        }
-    }
-
-    .title{
-        display: flex;
-        justify-content: center;
-
-        h1{
-            font-size: 64px;
-            font-weight: 200;
-        }
-        img{
-            width: 102px;
-            height: 110px;
-            transform: translateY(-1em);
-        }
-    }
-
-    form{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 130px;
-
-        input{
-            width: 80%;
-            height: 60px;
-            margin-bottom: 26px;
-            border: 1px solid rgba(120, 177, 89, 0.25);
-            box-shadow: 0px 4px 24px rgba(120, 177, 89, 0.12);
-            border-radius: 12px;
-            padding-left: 14px;
-            color: #9C9C9C;
-        }
-
-        button{
-            margin-top: 62px;
-            width: 200px;
-            height: 60px;
-            background-color: #5D9040;
-            border-radius: 12px;
-            border: none;
-            color: #FFFFFF;
-
-            &:hover{
-                cursor: pointer;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 768px) {
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       flex-direction: column;
-       position: relative;
-
-       header{
-        position: absolute;
-        top: 0;
-       }
-
-       .title{
-        position: absolute;
-        top: 100px;
-       }
-
-       form{
-        margin-top: 140px;
-        width: 80%;
-
-        button{
-            margin-top: 30px;
-        }
-       }
-    }   
-`

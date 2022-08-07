@@ -54,7 +54,7 @@ export async function getUrlById(req,res){
 export async function goToUrl(req,res){
     const { shortUrl } = req.params;
     try {
-        const { rows:url } = await urlRepository.getUrlByCode(shortUrl);
+        const { rows:url } = await urlRepository.getUrlByCode(stripHtml(shortUrl).result);
 
         if(!url.length > 0) return res.sendStatus(404);
 
