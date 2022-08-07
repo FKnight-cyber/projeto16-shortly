@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     padding: 20px;
 
     header{
@@ -70,30 +70,23 @@ export const Container = styled.div`
         }
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 924px) {
        display: flex;
        justify-content: center;
        align-items: center;
        flex-direction: column;
-       position: relative;
-
-       header{
-        position: absolute;
-        top: 0;
-       }
 
        .title{
-        position: absolute;
-        top: 100px;
+        margin-top: 40px;
        }
 
        form{
-        margin-top: 140px;
+        margin-top: 40px;
         width: 80%;
 
         button{
             margin-top: 30px;
         }
        }
-    }   
+    }
 `

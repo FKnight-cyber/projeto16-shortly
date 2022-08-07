@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     padding: 20px;
 
     .criar{
@@ -19,8 +19,8 @@ export const Container = styled.div`
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
-        position: relative;
         height: 58px;
+        position: relative;
 
         .greetings{
             position: absolute;
@@ -80,7 +80,7 @@ export const Container = styled.div`
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        width: 60%;
+        width: 90%;
         height: 240px;
         margin-left: 20%;
         margin-right: 20%;
@@ -92,25 +92,19 @@ export const Container = styled.div`
         font-size: 22px;
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 924px) {
        display: flex;
-       justify-content: center;
        align-items: center;
        flex-direction: column;
-       position: relative;
 
        .title{
-        position: absolute;
-        top:100px;
+        margin-top: 60px;
        }
 
        header{
-        position: absolute;
-        top: 0;
-
         .greetings{
-            top:200px;
             width: 200px;
+            top: 230px;
             left: 0;
             margin: 0;
         }
@@ -135,7 +129,7 @@ export const Container = styled.div`
         }
 
         .ranking{
-            margin-top: 100px;
+            margin-top: 40px;
         }
 
         .rankingContainer{

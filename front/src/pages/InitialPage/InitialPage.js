@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     padding: 20px;
 
     .spinner{
@@ -14,7 +14,7 @@ export const Container = styled.div`
     }
 
     .linkContainer{
-        margin-top: 40px;
+        margin-top: 10px;
         height: 400px;
         overflow-y: scroll;
 
@@ -30,7 +30,7 @@ export const Container = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top:100px;
+        margin-top:70px;
 
         input{
             width: 60%;
@@ -150,6 +150,10 @@ export const Container = styled.div`
        flex-direction: column;
        position: relative;
 
+       .rankingContainer{
+        width: 90%;
+       }
+
        .title{
         margin-top: 60px;
        }
@@ -184,4 +188,10 @@ export const Container = styled.div`
         width: 80%;
     }
     }   
+
+    @media only screen and (min-width: 700px) and (max-width: 924px){
+        .rankingContainer{
+            height: 150px;
+       }
+    }
 `

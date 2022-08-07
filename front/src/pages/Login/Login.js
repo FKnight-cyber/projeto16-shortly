@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     padding: 20px;
 
     .spinner{
@@ -77,7 +77,7 @@ export const Container = styled.div`
         }
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 924px) {
        display: flex;
        justify-content: center;
        align-items: center;
@@ -97,5 +97,11 @@ export const Container = styled.div`
             margin-top: 30px;
         }
        }
+
+       @media only screen and (min-width: 700px) and (max-width: 924px){
+        .title{
+            margin-top: 60px;
+       }
+    }
     }   
 `
