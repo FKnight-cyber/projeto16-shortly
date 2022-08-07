@@ -50,16 +50,14 @@ export default function InitialPage(){
             });
 
             promise.then(res=>{
-                
                 setLinks(res.data);
             });
 
             promise.catch(Error=>{
-                
                 notify(Error.response.data);
             });
             }
-        },[url,render]);
+        },[url,render,token]);
 
     function shortenLink(event){
         event.preventDefault();
@@ -93,7 +91,7 @@ export default function InitialPage(){
     }
 
     return(
-        <Container token={token}>
+        <Container token={token} load={load}>
             <ToastContainer
                 position="top-center"
                 autoClose={2000}
@@ -151,7 +149,7 @@ export default function InitialPage(){
                     {
                         load ?
                             <div className="spinner">
-                                <Circles  color={'#5D9040'} />
+                                <Circles  color={'#5D9040'} width={160} />
                             </div>      
                         :
                             <form onSubmit={shortenLink}>
@@ -182,7 +180,7 @@ const Container = styled.div`
         justify-content: center;
         align-items: center;
         margin-top: 40px;
-        margin: 0 auto;
+        height: 100px;
     }
 
     .linkContainer{
@@ -315,7 +313,7 @@ const Container = styled.div`
         font-size: 22px;
     }
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 924px) {
        display: flex;
        justify-content: center;
        align-items: center;

@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext.js";
 import { IoTrash } from "react-icons/io5";
 import { toast } from "react-toastify";
+import {FallingLines} from "react-loader-spinner";
 
 const notify = (error)=>{
     toast(`❗ ${error}`, {
@@ -31,8 +32,14 @@ const notify2 = (msg)=>{
 
 export default function Links({links,setRender}){
     const { token } = useContext(UserContext);
+    const [load,setLoad] = useState([...links.shortenedUrls.map(a => false)]);
+    
 
         function deleteUrl(id,index){
+            let loader = [...load];
+            loader[index] = true;
+            setLoad([...loader]);
+
             const promise = axios.delete(`https://ryan-project-shortly.herokuapp.com/urls/${id}`,{
                 headers:{
                     Authorization: `Bearer ${token}`
@@ -40,11 +47,15 @@ export default function Links({links,setRender}){
              });
 
              promise.then(()=>{
+                loader[index] = false;
+                setLoad([...loader]);
                 setRender(Math.random());
                 notify2('Url Deleted');
              });
 
              promise.catch(Error=>{
+                loader[index] = false;
+                setLoad([...loader]);
                 notify(Error.response.data);
              });
         };
@@ -72,13 +83,32 @@ export default function Links({links,setRender}){
                 <h6 onClick={()=>goToUrl(item.shortUrl)}>{item.shortUrl}</h6>
                 <h5>Quantidade de visitantes: {item.visitCount}</h5>
             </div>
-            <button onClick={()=>deleteUrl(item.id,index)}>
-                <IoTrash color="crimson" size={30} />    
-            </button>
+            {
+                load[index] ?
+                <Spinner>
+                    <FallingLines visible={'true'} color={'crimson'} width={50} />
+                </Spinner> 
+                :
+                <button onClick={()=>deleteUrl(item.id,index)}>
+                    <IoTrash color="crimson" size={30} />    
+                </button>
+            }
         </Container>
         )
     )
 }
+
+const Spinner = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff !important;
+    width: 20% !important;
+
+    @media only screen and (max-width: 924px){
+        padding-top: 20px !important;
+    }
+`
 
 const Container = styled.div`
     display: flex;
@@ -130,7 +160,7 @@ const Container = styled.div`
         }
     }
 
-    @media only screen and (max-width: 768px){
+    @media only screen and (max-width: 924px){
         margin-bottom: 80px;
         
         div{

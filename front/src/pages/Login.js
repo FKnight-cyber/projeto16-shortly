@@ -77,19 +77,21 @@ export default function Login(){
             </div>
             {
                 load ?
-                <Circles color={'#5D9040'} /> 
+                <div className="spinner">
+                    <Circles  color={'#5D9040'} />
+                </div>
                 :
                 <form onSubmit={signIn}>
                 <input type="email"
-                value={email}
-                placeholder="E-mail"
-                onChange={(e)=>setEmail(e.target.value)}
-                required />
+                    value={email}
+                    placeholder="E-mail"
+                    onChange={(e)=>setEmail(e.target.value)}
+                    required />
                 <input type="password"
-                value={password}
-                placeholder="Senha"
-                onChange={(e)=>setPassword(e.target.value)}
-                required />
+                    value={password}
+                    placeholder="Senha"
+                    onChange={(e)=>setPassword(e.target.value)}
+                    required />
                 <button type="submit">Entrar</button>
             </form>
             }
@@ -101,6 +103,13 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     padding: 20px;
+
+    .spinner{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+    }
 
     header{
         display: flex;
