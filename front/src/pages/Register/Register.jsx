@@ -48,7 +48,13 @@ export default function Register(){
             setLoad(false);
             if(Error.response.status === 422){
                 notify("Preencha os dados corretamente!");
-            } 
+            }
+            if(Error.response.status === 409){
+                notify("Email já está cadastrado!");
+            }
+            if(Error.response.status === 500){
+                notify("Erro no servidor!");
+            }  
         });
     }
 
@@ -78,7 +84,9 @@ export default function Register(){
             </div>
             {
             load ?
-            <Circles color={'#5D9040'} />
+            <div className="spinner">
+                 <Circles color={'#5D9040'} />
+            </div>
                 :
             <form onSubmit={signUp}>
                 <input type="text"

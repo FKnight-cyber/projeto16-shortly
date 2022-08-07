@@ -5,6 +5,12 @@ export const Container = styled.div`
     min-height: 100vh;
     padding: 20px;
 
+    .spinner{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     header{
         display: flex;
         justify-content: flex-end;
@@ -72,7 +78,6 @@ export const Container = styled.div`
 
     @media only screen and (max-width: 924px) {
        display: flex;
-       justify-content: center;
        align-items: center;
        flex-direction: column;
 

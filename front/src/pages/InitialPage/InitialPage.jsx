@@ -81,7 +81,12 @@ export default function InitialPage(){
 
          promise.catch(Error=>{
             setLoad(false);
-            notify(Error.response.data);
+            if(Error.response.status === 422){
+                notify("Insira uma URL válida https://...");
+            }
+            if(Error.response.status === 500){
+                notify("Erro no servidor!");
+            }
          })
     }
 

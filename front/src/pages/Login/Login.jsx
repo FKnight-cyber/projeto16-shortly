@@ -47,7 +47,12 @@ export default function Login(){
 
         promise.catch(Error => {
             setLoad(false);
-            notify(Error.response.data);
+            if(Error.response.status === 401){
+                notify("Usuário não está cadastrado ou a senha está incorreta!");
+            }
+            if(Error.response.status === 500){
+                notify("Erro no servidor!");
+            }
         })
     }
 
