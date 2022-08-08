@@ -12,7 +12,7 @@ export async function signUp(req,res){
     const cleansedEmail = stripHtml(email).result;
 
     try {   
-        await userRepository.newUser(cleansedName,cleansedEmail,passwordHash);
+        await userRepository.newUser(cleansedName.trim(),cleansedEmail.trim(),passwordHash);
         res.sendStatus(201);
     } catch (error) {
         if(error.constraint === "users_email_key") return res.sendStatus(409);

@@ -18,7 +18,7 @@ export async function shortenUrl(req,res){
 
         const shortenedUrl = nanoid(8);
 
-        await urlRepository.newUrl(cleansedUrl,shortenedUrl,session[0].userId);
+        await urlRepository.newUrl(cleansedUrl.trim(),shortenedUrl,session[0].userId);
 
         const body = {
             shortUrl:shortenedUrl
